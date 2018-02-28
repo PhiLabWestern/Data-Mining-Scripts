@@ -1,0 +1,15 @@
+process.corpus <- function(x)
+{
+  dsc <- Corpus(VectorSource(x))
+  dsc <- tm_map(dsc, stripWhitespace)
+  dsc <- tm_map(dsc, removePunctuation)
+  dsc <- tm_map(dsc, removeNumbers)
+  #dsc <- tm_map(dsc, removeWords, otherWords1)
+  #dsc <- tm_map(dsc, removeWords, otherWords2)
+  #dsc <- tm_map(dsc, removeWords, otherWords3)
+  #dsc <- tm_map(dsc, removeWords, javaKeywords)
+  dsc <- tm_map(dsc, removeWords, stopwords("english"))
+  dsc = tm_map(dsc, stemDocument)
+  dtm<- DocumentTermMatrix(dsc, control = list(weighting = weightTf, stopwords = FALSE))
+  return(dtm)
+}
